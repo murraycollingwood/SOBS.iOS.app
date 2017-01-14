@@ -1,0 +1,5 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:sobs="http://soap.sobs.com.au">
+    <soapenv:Header/>
+    <soapenv:Body>
+    </soapenv:Body>
+</soapenv:Envelope>

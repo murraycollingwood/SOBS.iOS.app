@@ -7,18 +7,48 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
+        application.registerForRemoteNotifications()
+
+        // registerForPushNotifications(application: application)
         return true
     }
 
+    @nonobjc func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        print("didRegisterForRemoteNotificiationsWithDeviceToken")
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        print("Device token = \(deviceTokenString)")
+        
+
+        /**
+        var tokenString = ""
+        for i in 0..<deviceToken.count {
+            tokenString += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        print("Device Token: \(tokenString)")
+        **/
+    }
+    
+    @nonobjc func application(application: UIApplication, didFailToRegisterForPushNotificationsWithError error: NSError) {
+        print("Failed to register:", error)
+    }
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
