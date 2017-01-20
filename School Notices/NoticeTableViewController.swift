@@ -8,7 +8,12 @@
 
 import UIKit
 
-protocol NoticeTableViewDelegate {
+protocol NoticeListDelegate {
+    // The failMessage will always have a string
+    func failMessage(_: String)
+    
+    // On success
+    func noticeListUpdated()
 }
 
 class NoticeTableViewController: UIViewController,
@@ -37,6 +42,8 @@ class NoticeTableViewController: UIViewController,
         noticeList?.delegate = self
         if let cu = delegate?.getUser() {
             noticeList?.updateNotices(cu)
+        } else {
+            print("Failed to getUser from the delegate (RootViewDelegate)")
         }
         
     }
@@ -52,23 +59,24 @@ class NoticeTableViewController: UIViewController,
     @IBOutlet weak var tableView: UITableView!
     
     public func failMessage(_ msg: String) {
-        self.spinner.stopAnimating()
-        self.title = msg
+        DispatchQueue.main.async {
+            self.spinner.stopAnimating()
+            self.title = msg
+        }
     }
     
     public func noticeListUpdated() {
-        print("noticeListUpdated - we got called!")
-        print(" - noticeList.count = " + String(describing: noticeList?.count()))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         if let schoolDate = noticeList?.date {
             self.backupTitle = dateFormatter.string(from: schoolDate)
-            self.title = self.backupTitle
         }
         
-        self.spinner.stopAnimating()
-        print(" - request reloadData()")
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.title = self.backupTitle
+            self.spinner.stopAnimating()
+            self.tableView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,13 +89,11 @@ class NoticeTableViewController: UIViewController,
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         let cnt = noticeList?.count() ?? 0
-        print("++ asking for numberOfSections = \(cnt)")
         return cnt
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if let groupname = noticeList?.groups?[section] {
-            print("displaying groupname = \(groupname)")
             return groupname
         }
         return "[groupname \(section)]"
@@ -96,7 +102,6 @@ class NoticeTableViewController: UIViewController,
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         let cnt = noticeList?.count(section) ?? 0
-        print("++ asking for numberOfRowsInSection(\(section)) = \(cnt)")
         return cnt
     }
 
@@ -107,9 +112,6 @@ class NoticeTableViewController: UIViewController,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.NoticeCellIdentifier, for: indexPath)
-
-        // Configure the cell...
-        print("++ setting cell text for \(indexPath.section) by \(indexPath.row)")
         let notice = noticeList?.retrieveNotice(indexPath.section, indexPath.row)
         cell.textLabel?.text = notice?.content
         return cell
@@ -120,8 +122,6 @@ class NoticeTableViewController: UIViewController,
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         currentIndexPath = indexPath
-        print(" => the segue to ShowNotice should happen now, with (\(indexPath.section),\(indexPath.row))")
-        // performSegue(withIdentifier: "ShowNotice", sender: self)
     }
     
     public func getNotices() -> NoticeList? {

@@ -9,7 +9,8 @@
 import UIKit
 
 // Global constants
-let sobsurl = "http://sobs/soap.php"
+let sobsurl = "https://sobs.com.au/soap.php"
+let application = "waz"
 
 protocol RootViewDelegate {
     func hasAuthenticated(_ controller: LoginViewController) -> Void
@@ -32,10 +33,10 @@ class RootViewController: UIViewController, RootViewDelegate {
         super.viewDidAppear(animated)
         
         if currentUser.isAuthenticated() {
-            print("currentUser is valid - segue to the Notices list")
+            // print("currentUser is valid - segue to the Notices list")
             performSegue(withIdentifier: "ToNotices", sender: self)
         } else {
-            print("currentUser not authenticated - segue to the Login page")
+            // print("currentUser not authenticated - segue to the Login page")
             performSegue(withIdentifier: "ToLogin", sender: self)
         }
         
@@ -83,7 +84,7 @@ class RootViewController: UIViewController, RootViewDelegate {
     
     // LoginView Delegate
     func hasAuthenticated(_ controller: LoginViewController) {
-        print("CurrentUser has been set - ready to go to the notices list")
+        // print("CurrentUser has been set - ready to go to the notices list")
         DispatchQueue.main.async(){
             // _ = controller.navigationController?.popViewController(animated: true)
             self.performSegueToReturnBack()

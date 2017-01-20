@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7216CCB21E29C84E003BAA26 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7216CCB11E29C84E003BAA26 /* UserNotifications.framework */; };
+		7216CCBA1E29E49F003BAA26 /* SchoolTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7216CCB91E29E49F003BAA26 /* SchoolTableViewController.swift */; };
+		7216CCBC1E2D4660003BAA26 /* Soap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7216CCBB1E2D4660003BAA26 /* Soap.swift */; };
 		72658D461E09FE5D000FAE3A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */; };
 		72658D481E09FEC3000FAE3A /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72658D471E09FEC3000FAE3A /* NoticeList.swift */; };
 		726F11C01E1E513300A30687 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F11BF1E1E513300A30687 /* RootViewController.swift */; };
@@ -24,11 +27,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7216CCB11E29C84E003BAA26 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		7216CCB91E29E49F003BAA26 /* SchoolTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolTableViewController.swift; sourceTree = "<group>"; };
+		7216CCBB1E2D4660003BAA26 /* Soap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Soap.swift; sourceTree = "<group>"; };
 		72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
 		72658D471E09FEC3000FAE3A /* NoticeList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		726F11BF1E1E513300A30687 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		726F11C71E29625400A30687 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		726F11C81E29625400A30687 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		72754CBF1E318C4B00723FAF /* School Notices.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "School Notices.entitlements"; sourceTree = "<group>"; };
 		7275DC181E176F04006D187D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7275DC1C1E183754006D187D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7275DC1E1E1B493F006D187D /* XML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
@@ -40,7 +47,6 @@
 		729D8B611DFDFDA9004389B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		729D8B641DFDFDA9004389B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		729D8B661DFDFDA9004389B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		729D8B6C1DFE06F1004389B0 /* School Notices.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "School Notices.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,17 +54,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7216CCB21E29C84E003BAA26 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7216CCB01E29C84E003BAA26 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7216CCB11E29C84E003BAA26 /* UserNotifications.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		729D8B4E1DFDFDA9004389B0 = {
 			isa = PBXGroup;
 			children = (
 				729D8B591DFDFDA9004389B0 /* School Notices */,
 				729D8B581DFDFDA9004389B0 /* Products */,
+				7216CCB01E29C84E003BAA26 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,14 +89,16 @@
 		729D8B591DFDFDA9004389B0 /* School Notices */ = {
 			isa = PBXGroup;
 			children = (
-				729D8B6C1DFE06F1004389B0 /* School Notices.entitlements */,
+				72754CBF1E318C4B00723FAF /* School Notices.entitlements */,
 				729D8B5E1DFDFDA9004389B0 /* Main.storyboard */,
 				726F11BF1E1E513300A30687 /* RootViewController.swift */,
 				7275DC181E176F04006D187D /* LoginViewController.swift */,
+				7216CCB91E29E49F003BAA26 /* SchoolTableViewController.swift */,
 				72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */,
 				729D8B5C1DFDFDA9004389B0 /* NoticeViewController.swift */,
 				72658D471E09FEC3000FAE3A /* NoticeList.swift */,
 				7275DC1C1E183754006D187D /* User.swift */,
+				7216CCBB1E2D4660003BAA26 /* Soap.swift */,
 				7275DC1E1E1B493F006D187D /* XML.swift */,
 				72DBE96D1DFE108D006D5957 /* Supporting Files */,
 			);
@@ -180,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7216CCBC1E2D4660003BAA26 /* Soap.swift in Sources */,
 				7275DC1F1E1B493F006D187D /* XML.swift in Sources */,
 				7275DC191E176F04006D187D /* LoginViewController.swift in Sources */,
 				726F11C01E1E513300A30687 /* RootViewController.swift in Sources */,
@@ -187,6 +206,7 @@
 				7275DC1D1E183754006D187D /* User.swift in Sources */,
 				726F11C91E29625400A30687 /* KeychainItemAccessibility.swift in Sources */,
 				72658D481E09FEC3000FAE3A /* NoticeList.swift in Sources */,
+				7216CCBA1E29E49F003BAA26 /* SchoolTableViewController.swift in Sources */,
 				729D8B5D1DFDFDA9004389B0 /* NoticeViewController.swift in Sources */,
 				729D8B5B1DFDFDA9004389B0 /* AppDelegate.swift in Sources */,
 				726F11CA1E29625400A30687 /* KeychainWrapper.swift in Sources */,
@@ -315,6 +335,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "School Notices/School Notices.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Murray Collingwood (24DWA2UH8W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = C5P78F2YY9;
 				INFOPLIST_FILE = "School Notices/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -330,6 +352,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "School Notices/School Notices.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Focus Computing Pty Ltd (C5P78F2YY9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = C5P78F2YY9;
 				INFOPLIST_FILE = "School Notices/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
