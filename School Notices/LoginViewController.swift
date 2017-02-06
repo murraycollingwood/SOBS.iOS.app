@@ -39,11 +39,10 @@ class LoginViewController: UIViewController, LoginViewDelegate, UITextFieldDeleg
             password.text = currentUser.password ?? ""
         }
 
+        // Blank the error message
         msglabel.text = "";
-        
-        // Focus the cursor to the Username field (this works)
-        username.becomeFirstResponder()
     }
+
     
     
     
@@ -81,6 +80,13 @@ class LoginViewController: UIViewController, LoginViewDelegate, UITextFieldDeleg
         
         if currentUser.schoolid == 0 {
             performSegue(withIdentifier: "LookupSchool", sender: self)
+        } else {
+            self.username.becomeFirstResponder()
+            if currentUser.hasValues() {
+                // First time in we can attempt a login with the current user details
+                login(loginButton)
+            }
+
         }
     }
     
@@ -122,7 +128,7 @@ class LoginViewController: UIViewController, LoginViewDelegate, UITextFieldDeleg
         schoolnameText.setTitle(currentUser.schoolname ?? "",for: .normal)
         
         DispatchQueue.main.async(){
-            // _ = controller.navigationController?.popViewController(animated: true)
+            // Close the SchoolTableViewController
             self.performSegueToReturnBack()
         }
     }
@@ -138,6 +144,7 @@ class LoginViewController: UIViewController, LoginViewDelegate, UITextFieldDeleg
         
         // Do we have values for each?
         if (schoolnameText.currentTitle == "Search for school")  { return }
+        if (currentUser.schoolid == 0)              { return }
         if (username.text == "")        { return }
         if (password.text == "")        { return }
         

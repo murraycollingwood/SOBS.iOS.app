@@ -9,7 +9,6 @@
 
 // importing a module
 import UIKit
-import WebKit
 
 protocol NoticeViewDelegate {
     func getCurrentIndexPath() -> IndexPath?
@@ -19,25 +18,29 @@ protocol NoticeViewDelegate {
 }
 
 
-class NoticeViewController: UIViewController {
+class NoticeViewController: UIViewController, UIWebViewDelegate { 
     
     var delegate: NoticeViewDelegate?
     var notice: Notice!
     var notices: NoticeList!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        noticeArea.delegate = self
         if let allNotices = delegate?.getNotices() {
             notices = allNotices
             if let del = delegate {
                 if let notice = retrieveNotice(del.getCurrentIndexPath()) {
                     DispatchQueue.main.async {
-                        self.noticeArea.loadHTMLString(notice.html!, baseURL: nil)
+                        self.noticeArea.loadHTMLString(notice.html!, baseURL: baseurl)
+                        // print("html = \(notice.html!)")
                     }
                 }
             }
         }
     }
-    
+
+
     // We should assert that notices
     private func retrieveNotice(_ indexPath: IndexPath?) -> Notice? {
         if let ip = indexPath {
@@ -51,9 +54,10 @@ class NoticeViewController: UIViewController {
 
     @IBOutlet weak var counter: UILabel!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     
-    @IBOutlet weak var noticeArea: WKWebView! {
+    @IBOutlet weak var noticeArea: UIWebView! {
         didSet {
             let swipeNext = UISwipeGestureRecognizer(target: self, action: #selector(NoticeViewController.nextButton))
             swipeNext.direction = .left
@@ -67,17 +71,24 @@ class NoticeViewController: UIViewController {
     
     func nextButton(_ gesture: UIGestureRecognizer) {
         if let notice = retrieveNotice(delegate?.nextIndexPath()) {
-            noticeArea.loadHTMLString(notice.html!, baseURL: nil)
+            noticeArea.loadHTMLString(notice.html!, baseURL: baseurl)
         }
 
     }
     
     func prevButton(_ gesture: UIGestureRecognizer) {
         if let notice = retrieveNotice(delegate?.prevIndexPath()) {
-            noticeArea.loadHTMLString(notice.html!, baseURL: nil)
+            noticeArea.loadHTMLString(notice.html!, baseURL: baseurl)
         }
 
     }
+   
+    func webViewDidStartLoad(_ webView : UIWebView) {
+        self.spinner.startAnimating()
+    }
     
+    func webViewDidFinishLoad(_ webView : UIWebView) {
+        self.spinner.stopAnimating()
+    }
 }
 

@@ -12,6 +12,8 @@
 		7216CCBC1E2D4660003BAA26 /* Soap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7216CCBB1E2D4660003BAA26 /* Soap.swift */; };
 		72658D461E09FE5D000FAE3A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */; };
 		72658D481E09FEC3000FAE3A /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72658D471E09FEC3000FAE3A /* NoticeList.swift */; };
+		726E20611E3A9C33001F15AC /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E20601E3A9C33001F15AC /* MenuViewController.swift */; };
+		726E20651E47A9B1001F15AC /* DateSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E20641E47A9B1001F15AC /* DateSelectionViewController.swift */; };
 		726F11C01E1E513300A30687 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F11BF1E1E513300A30687 /* RootViewController.swift */; };
 		726F11C91E29625400A30687 /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F11C71E29625400A30687 /* KeychainItemAccessibility.swift */; };
 		726F11CA1E29625400A30687 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F11C81E29625400A30687 /* KeychainWrapper.swift */; };
@@ -32,6 +34,8 @@
 		7216CCBB1E2D4660003BAA26 /* Soap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Soap.swift; sourceTree = "<group>"; };
 		72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
 		72658D471E09FEC3000FAE3A /* NoticeList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
+		726E20601E3A9C33001F15AC /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		726E20641E47A9B1001F15AC /* DateSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSelectionViewController.swift; sourceTree = "<group>"; };
 		726F11BF1E1E513300A30687 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		726F11C71E29625400A30687 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		726F11C81E29625400A30687 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 				7275DC181E176F04006D187D /* LoginViewController.swift */,
 				7216CCB91E29E49F003BAA26 /* SchoolTableViewController.swift */,
 				72658D451E09FE5D000FAE3A /* NoticeTableViewController.swift */,
+				726E20601E3A9C33001F15AC /* MenuViewController.swift */,
+				726E20641E47A9B1001F15AC /* DateSelectionViewController.swift */,
 				729D8B5C1DFDFDA9004389B0 /* NoticeViewController.swift */,
 				72658D471E09FEC3000FAE3A /* NoticeList.swift */,
 				7275DC1C1E183754006D187D /* User.swift */,
@@ -205,7 +211,9 @@
 				72658D461E09FE5D000FAE3A /* NoticeTableViewController.swift in Sources */,
 				7275DC1D1E183754006D187D /* User.swift in Sources */,
 				726F11C91E29625400A30687 /* KeychainItemAccessibility.swift in Sources */,
+				726E20611E3A9C33001F15AC /* MenuViewController.swift in Sources */,
 				72658D481E09FEC3000FAE3A /* NoticeList.swift in Sources */,
+				726E20651E47A9B1001F15AC /* DateSelectionViewController.swift in Sources */,
 				7216CCBA1E29E49F003BAA26 /* SchoolTableViewController.swift in Sources */,
 				729D8B5D1DFDFDA9004389B0 /* NoticeViewController.swift in Sources */,
 				729D8B5B1DFDFDA9004389B0 /* AppDelegate.swift in Sources */,
@@ -339,7 +347,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = C5P78F2YY9;
 				INFOPLIST_FILE = "School Notices/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mobi.sobs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -356,7 +364,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = C5P78F2YY9;
 				INFOPLIST_FILE = "School Notices/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mobi.sobs;
 				PRODUCT_NAME = "$(TARGET_NAME)";

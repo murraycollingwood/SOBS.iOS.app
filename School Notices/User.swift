@@ -23,28 +23,42 @@ class User: NSObject, SoapResponse {
     
    
     override init() {
-        
-        
-        
         // let defaults = UserDefaults.standard
         let defaults = KeychainWrapper.standard
         if let name = defaults.string(forKey: "sobs.schoolname") {
             schoolname = name
         }
-        let sid = defaults.integer(forKey: "sobs.schoolid") ?? 0
-        if sid > 0 {
-            schoolid = sid
-        }
+        schoolid = defaults.integer(forKey: "sobs.schoolid") ?? 0
         if let uname = defaults.string(forKey: "sobs.username") {
             username = uname
         }
         if let pwd = defaults.string(forKey: "sobs.password") {
             password = pwd
         }
+        
     }
     
     public func isAuthenticated() -> Bool {
         return authenticated
+    }
+    
+    public func hasValues() -> Bool {
+        if schoolid == 0 {
+            return false
+        }
+        if (username == nil) {
+            return false
+        }
+        if (password == nil) {
+            return false
+        }
+        if (username?.isEmpty)! {
+            return false
+        }
+        if (password?.isEmpty)! {
+            return false
+        }
+        return true
     }
     
     
@@ -82,6 +96,21 @@ class User: NSObject, SoapResponse {
         
         weak var weakSelf = self
         Soap.call(url: sobsurl, withXMLRequests: [authenticationNode], from: weakSelf)
+    }
+    
+    
+    
+    public func logoff() {
+        schoolname = nil
+        schoolid = 0
+        username = nil
+        password = nil
+        
+        // Remove the previous values from the KeyChain
+        updateDefaults()
+        
+        // We are no longer authenticated
+        authenticated = false
     }
     
     func soapFailed(code: Int!, errorObject: Any!) {
@@ -141,14 +170,23 @@ class User: NSObject, SoapResponse {
         // let defaults = UserDefaults.standard
         let defaults = KeychainWrapper.standard
 
-        if username != nil && defaults.string(forKey: "sobs.username") != username {
+        if username == nil {
+            defaults.set("", forKey: "sobs.username")
+        } else if defaults.string(forKey: "sobs.username") != username {
             // print("UserDefaults updated with new username: \(username)")
             defaults.set(username!, forKey: "sobs.username")
         }
-        if password != nil && defaults.string(forKey: "sobs.password") != password {
+        
+        if password == nil {
+            defaults.set("", forKey: "sobs.password")
+        } else if defaults.string(forKey: "sobs.password") != password {
             defaults.set(password!, forKey: "sobs.password")
         }
-        if schoolid! > 0 && defaults.integer(forKey: "sobs.schoolid") != schoolid! {
+        
+        if schoolid == nil {
+            defaults.set(0, forKey: "sobs.schoolid")
+            defaults.set("", forKey: "sobs.schoolname")
+        } else if schoolid! > 0 && defaults.integer(forKey: "sobs.schoolid") != schoolid! {
             defaults.set(schoolid!, forKey: "sobs.schoolid")
             defaults.set(schoolname!, forKey: "sobs.schoolname")
         }

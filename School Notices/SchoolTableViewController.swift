@@ -146,6 +146,13 @@ class SchoolTableViewController: UITableViewController, UISearchBarDelegate, Soa
         stableView.delegate = self
         stableView.dataSource = self
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.searchbar.becomeFirstResponder()
+    }
+    
 
     // MARK: - Table view data source
 

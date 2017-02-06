@@ -10,10 +10,12 @@ import UIKit
 
 // Global constants
 let sobsurl = "https://sobs.com.au/soap.php"
+let baseurl: URL = URL(string: "https://sobs.com.au/")!
 let application = "waz"
 
 protocol RootViewDelegate {
     func hasAuthenticated(_ controller: LoginViewController) -> Void
+    func hasLoggedOff() -> Void
     func getUser() -> User?
 }
 
@@ -25,8 +27,6 @@ class RootViewController: UIViewController, RootViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,7 +91,17 @@ class RootViewController: UIViewController, RootViewDelegate {
             self.performSegue(withIdentifier: "ToNotices", sender: self)
         }
     }
-    
+
+    // LoginView Delegate
+    func hasLoggedOff() {
+        // print("CurrentUser has been set - ready to go to the notices list")
+        DispatchQueue.main.async(){
+            // _ = controller.navigationController?.popViewController(animated: true)
+            self.performSegueToReturnBack()
+            self.performSegue(withIdentifier: "ToLogin", sender: self)
+        }
+    }
+
     public func getUser() -> User? {
         return currentUser
     }

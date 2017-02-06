@@ -14,6 +14,21 @@ protocol NoticeListDelegate {
     
     // On success
     func noticeListUpdated()
+    
+    // Called from the menu
+    func slideMenuItemSelectedAtIndex(_ index : Int32)
+
+    // Called when the date is changed by the user
+    func dateSelected(_ date: Date) -> Void
+    
+    // Once we have received the dates from the server, slide the window in
+    func slideDateSelection(_ slideIn: Bool) -> Void
+
+    // Return the currentuser
+    func getUser() -> User?
+    
+    // Return the current date
+    func getCurrentDate() -> Date?
 }
 
 class NoticeTableViewController: UIViewController,
@@ -46,6 +61,11 @@ class NoticeTableViewController: UIViewController,
             print("Failed to getUser from the delegate (RootViewDelegate)")
         }
         
+        addSlideMenuButton()
+    }
+    
+    public func getUser() -> User? {
+        return delegate?.getUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +98,22 @@ class NoticeTableViewController: UIViewController,
             self.tableView.reloadData()
         }
     }
+    
+    public func dateSelected(_ date: Date) {
+        noticeList?.date = date
+        
+        // Refresh the notice list
+        if let cu = delegate?.getUser() {
+            noticeList?.updateNotices(cu)
+        } else {
+            print("Failed to getUser from the delegate (RootViewDelegate)")
+        }
+    }
+    
+    public func getCurrentDate() -> Date? {
+        return noticeList?.date
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -201,6 +237,168 @@ class NoticeTableViewController: UIViewController,
             }
             
         default: break
+        }
+    }
+    
+    
+    
+    // Slide Menu
+    
+    // Called from the menuVC
+    func slideMenuItemSelectedAtIndex(_ index: Int32) {
+        // let topViewController : UIViewController = self.navigationController!.topViewController!
+        // print("View Controller is : \(topViewController) \n", terminator: "")
+        switch(index){
+        case 0: // Logoff
+            
+            if let del = delegate {
+                if let user = del.getUser() {
+                    user.logoff()
+                }
+                del.hasLoggedOff()
+            }
+            break
+            
+        case 1: // Change date
+            
+            slideDateSelection(true)
+            break
+            
+        case 2: // Add notice
+            let alert = UIAlertController(title: "Add notice not yet implemented", message: "", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    func openViewControllerBasedOnIdentifier(_ strIdentifier:String){
+        let destViewController : UIViewController = self.storyboard!.instantiateViewController(withIdentifier: strIdentifier)
+        
+        let topViewController : UIViewController = self.navigationController!.topViewController!
+        
+        if (topViewController.restorationIdentifier! == destViewController.restorationIdentifier!){
+            print("Same VC")
+        } else {
+            self.navigationController!.pushViewController(destViewController, animated: true)
+        }
+    }
+    
+    func addSlideMenuButton(){
+        let btnShowMenu = UIButton(type: UIButtonType.system)
+        btnShowMenu.setImage(self.defaultMenuImage(), for: UIControlState())
+        btnShowMenu.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btnShowMenu.addTarget(self, action: #selector(NoticeTableViewController.onSlideMenuButtonPressed(_:)), for: UIControlEvents.touchUpInside)
+        let customBarItem = UIBarButtonItem(customView: btnShowMenu)
+        self.navigationItem.rightBarButtonItem = customBarItem;
+    }
+    
+    func defaultMenuImage() -> UIImage {
+        var defaultMenuImage = UIImage()
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 30, height: 22), false, 0.0)
+        
+        UIColor.black.setFill()
+        UIBezierPath(rect: CGRect(x: 0, y: 3, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 10, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 17, width: 30, height: 1)).fill()
+        
+        UIColor.white.setFill()
+        UIBezierPath(rect: CGRect(x: 0, y: 4, width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 11,  width: 30, height: 1)).fill()
+        UIBezierPath(rect: CGRect(x: 0, y: 18, width: 30, height: 1)).fill()
+        
+        defaultMenuImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        return defaultMenuImage;
+    }
+    
+    func onSlideMenuButtonPressed(_ sender : UIButton){
+        if (sender.tag == 10)
+        {
+            
+            // To Hide Menu If it already there
+            self.slideMenuItemSelectedAtIndex(-1);
+            
+            
+            sender.tag = 0;
+            
+            let viewMenuBack : UIView = view.subviews.last!
+            
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                var frameMenu : CGRect = viewMenuBack.frame
+                frameMenu.origin.x = UIScreen.main.bounds.size.width
+                viewMenuBack.frame = frameMenu
+                viewMenuBack.layoutIfNeeded()
+                viewMenuBack.backgroundColor = UIColor.clear
+            }, completion: { (finished) -> Void in
+                viewMenuBack.removeFromSuperview()
+            })
+            
+            return
+        }
+        
+        
+        sender.isEnabled = false
+        sender.tag = 10
+        
+        let menuVC : MenuViewController = self.storyboard!.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        
+        menuVC.btnMenu = sender
+        menuVC.delegate = self
+        self.view.addSubview(menuVC.view)
+        self.addChildViewController(menuVC)
+        menuVC.view.layoutIfNeeded()
+        menuVC.view.backgroundColor = UIColor.clear
+        
+        menuVC.view.frame=CGRect(x: UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+        
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            menuVC.view.frame=CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+            sender.isEnabled = true
+        }, completion:nil)
+    }
+    
+    
+    internal func slideDateSelection(_ slideIn: Bool) {
+        if slideIn {
+            let dsVC : DateSelectionViewController = self.storyboard!.instantiateViewController(withIdentifier: "DateSelectionViewController") as! DateSelectionViewController
+            
+            dsVC.delegate = self
+            self.view.addSubview(dsVC.view)
+            self.addChildViewController(dsVC)
+            dsVC.view.layoutIfNeeded()
+            dsVC.view.backgroundColor = UIColor.clear
+            
+            dsVC.view.frame=CGRect(x: UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+            
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                dsVC.view.frame=CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height);
+            }, completion:nil)
+            
+        } else { // Slide out
+            
+            // I don't believe we are using this
+            print("Not expecting slideDateSelection(false) to be called, but it is!")
+            
+            let viewMenuBack : UIView = view.subviews.last!
+            
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                var frameMenu : CGRect = viewMenuBack.frame
+                frameMenu.origin.x = UIScreen.main.bounds.size.width
+                viewMenuBack.frame = frameMenu
+                viewMenuBack.layoutIfNeeded()
+                viewMenuBack.backgroundColor = UIColor.clear
+            }, completion: { (finished) -> Void in
+                viewMenuBack.removeFromSuperview()
+            })
+
+            
         }
     }
     

@@ -33,6 +33,10 @@ class NoticeList: SoapResponse {
         return notices![section].count as Int
     }
     
+    public func setDate(_ thedate: Date) {
+        self.date = thedate;
+    }
+    
     public func retrieveNotice(_ groupindex: Int, _ noticeindex: Int) -> Notice? {
         return notices?[groupindex][noticeindex]
     }
@@ -49,7 +53,14 @@ class NoticeList: SoapResponse {
         
         var nodes: [XMLNode] = []
         nodes.append(currentUser.asXMLRequest(application: application))
-        nodes.append(XMLNode(name: "getNotices"))
+        
+        let getnotices = XMLNode(name: "getNotices");
+        if (date != nil) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            getnotices.addChild(name: "date", value: dateFormatter.string(from: date!))
+        }
+        nodes.append(getnotices)
         
         weak var weakSelf = self
         Soap.call(url: sobsurl, withXMLRequests: nodes, from: weakSelf)
@@ -206,6 +217,10 @@ class Notice {
     var content: String?
     var html: String?
     
+    var imageUrl: String?
+    var snapshotUrl: String?
+    var originalUrl: String?
+    
     var date: Date?
     var author: String?
     var shortcode: String?
@@ -220,7 +235,18 @@ class Notice {
         shortcode = xml["shortcode"]?.text
         
         content = xml["content"]?.text
+        
         html = xml["html"]?.description // We don't want to remove the html from this piece
+        if html == nil {
+            if let localContent = content {
+                html = "<pre>" + localContent + "</pre>"
+            }
+        }
+        
+        imageUrl = xml["image"]?.description
+        snapshotUrl = xml["snapshot"]?.description
+        originalUrl = xml["original"]?.description
+        
     }
     
     public func setPositionDescription(_ count: Int!, of total: Int!) -> Void {
